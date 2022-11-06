@@ -33,6 +33,7 @@ class _HomePageState extends State<HomePage> {
           onPressed: () {
             setState(() {
               typing = !typing;
+              _contactSearchController.clear();
             });
           },
           icon: Icon(typing ? Icons.done : Icons.search),
