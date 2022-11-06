@@ -14,6 +14,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _contactSearchController =
+      TextEditingController();
+
+  bool typing = false;
 
   @override
   void initState() {
@@ -25,43 +29,103 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Contact app'),
+        leading: IconButton(
+          onPressed: () {
+            setState(() {
+              typing = !typing;
+            });
+          },
+          icon: Icon(typing ? Icons.done : Icons.search),
+        ),
+        title: typing
+            ? Container(
+                alignment: Alignment.centerLeft,
+                color: Colors.white,
+                child: TextField(
+                  controller: _contactSearchController,
+                  onChanged: (value) {
+                    setState(() {});
+                  },
+                  decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Search',
+                      contentPadding: EdgeInsets.all(10)),
+                ),
+              )
+            : const Text('My Contact app'),
       ),
       body: ValueListenableBuilder(
           valueListenable: contactListNotifier,
           builder: (BuildContext context, List<Contact> contactList, _) {
             return ListView.builder(
+              shrinkWrap: true,
               itemCount: contactList.length,
               itemBuilder: (context, index) {
                 final contact = contactList[index];
-                return ListTile(
-                  leading: const CircleAvatar(
-                    child: Icon(Icons.person),
-                  ),
-                  title: Text(contact.name),
-                  subtitle: Text(contact.phoneNumber.toString()),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.call),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          delete(context, index);
-                        },
-                        icon: const Icon(Icons.delete),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          update(context, contact, index);
-                        },
-                        icon: const Icon(Icons.update),
-                      )
-                    ],
-                  ),
-                );
+                if (_contactSearchController.text.isEmpty) {
+                  return ListTile(
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.person),
+                    ),
+                    title: Text(contact.name),
+                    subtitle: Text(contact.phoneNumber.toString()),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.call),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            delete(context, index);
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            update(context, contact, index);
+                          },
+                          icon: const Icon(Icons.update),
+                        )
+                      ],
+                    ),
+                  );
+                } else if (contactList[index]
+                    .name
+                    .toLowerCase()
+                    .contains(_contactSearchController.text.toLowerCase())) {
+                  return ListTile(
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.person),
+                    ),
+                    title: Text(contact.name),
+                    subtitle: Text(contact.phoneNumber.toString()),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(Icons.call),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            delete(context, index);
+                          },
+                          icon: const Icon(Icons.delete),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            update(context, contact, index);
+                          },
+                          icon: const Icon(Icons.update),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
               },
             );
           }),
@@ -77,6 +141,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  
 }
