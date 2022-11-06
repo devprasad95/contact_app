@@ -1,6 +1,7 @@
 import 'package:contact_app/methods/db_methods.dart';
 import 'package:contact_app/models/contact.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../utils/contact_functions.dart';
 
@@ -74,7 +75,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            launch("tel://${contact.phoneNumber.toString()}");
+                          },
                           icon: const Icon(Icons.call),
                         ),
                         IconButton(
@@ -106,7 +109,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            launch("tel://${contact.phoneNumber.toString()}");
+                          },
                           icon: const Icon(Icons.call),
                         ),
                         IconButton(
