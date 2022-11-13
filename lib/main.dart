@@ -2,7 +2,10 @@ import 'package:contact_app/models/contact.dart';
 import 'package:contact_app/views/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
 Future<void> main() async {
   await Hive.initFlutter();
   if (!Hive.isAdapterRegistered(ContactAdapter().typeId)) {

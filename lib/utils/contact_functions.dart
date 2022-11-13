@@ -1,7 +1,9 @@
 import 'package:contact_app/models/contact.dart';
 import 'package:flutter/material.dart';
 
+import '../main.dart';
 import '../methods/db_methods.dart';
+import '../services/notifications.dart';
 
 Future<dynamic> addContactBox(
   BuildContext context, {
@@ -37,6 +39,11 @@ Future<dynamic> addContactBox(
                   nameController: nameController,
                   phoneNumberController: phoneNumberController,
                 );
+                Notifications.showBigTextNotification(
+                    title: "New contact added",
+                    body:
+                        '${nameController.text}\n${phoneNumberController.text}',
+                    fln: flutterLocalNotificationsPlugin);
                 nameController.clear();
                 phoneNumberController.clear();
                 Navigator.of(context).pop();

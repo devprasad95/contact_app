@@ -1,5 +1,7 @@
+import 'package:contact_app/main.dart';
 import 'package:contact_app/methods/db_methods.dart';
 import 'package:contact_app/models/contact.dart';
+import 'package:contact_app/services/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,6 +26,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     getContact();
+    Notifications.initialize(flutterLocalNotificationsPlugin);
   }
 
   @override
